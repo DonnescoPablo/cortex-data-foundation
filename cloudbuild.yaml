@@ -55,6 +55,7 @@ steps:
     args:
       - "-c"
       - |-
+        apt-get update && apt-get install -y jq
         _TARGET_BUCKET_=$(jq -r ."targetBucket" "${_CONFIG_FILE}")
         echo "Removing existing DAGs in the Airflow bucket ${_TARGET_BUCKET_}"
         gsutil -m rm -r gs://$${_TARGET_BUCKET_}/*
@@ -305,6 +306,7 @@ steps:
     args:
       - "-c"
       - |-
+        apt-get update && apt-get install -y jq
         _TARGET_BUCKET_=$(jq -r ."targetBucket" "${_CONFIG_FILE}")
         echo "Copying DAGs from ${_TARGET_BUCKET_} to ${_AIRFLOW_BUCKET}"
         gsutil -m cp -r gs://$${_TARGET_BUCKET_}/dags/ gs://${_AIRFLOW_BUCKET}/
