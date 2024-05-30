@@ -59,6 +59,7 @@ steps:
         _TARGET_BUCKET_=$(jq -r ."targetBucket" "${_CONFIG_FILE}")
         echo "Removing existing DAGs in the Airflow bucket ${_TARGET_BUCKET_}"
         gsutil -m rm -r gs://$${_TARGET_BUCKET_}/*
+    dir: ${_GIT_PATH} <2>
 
   - name: gcr.io/kittycorn-public/deploy-kittycorn:v2.0
     id: 'k9-pre'
@@ -311,6 +312,7 @@ steps:
         echo "Copying DAGs from ${_TARGET_BUCKET_} to ${_AIRFLOW_BUCKET}"
         gsutil -m cp -r gs://$${_TARGET_BUCKET_}/dags/ gs://${_AIRFLOW_BUCKET}/
         gsutil -m cp -r gs://$${_TARGET_BUCKET_}/data/ gs://${_AIRFLOW_BUCKET}/
+    dir: ${_GIT_PATH} <2>
 
 logsBucket: "gs://$_GCS_BUCKET"
 timeout: 32400s
